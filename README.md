@@ -1,1 +1,1 @@
-# practicGo
+# practic-go
