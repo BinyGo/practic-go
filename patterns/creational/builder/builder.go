@@ -2,7 +2,7 @@
  * @Auther: BinyGo
  * @Description: 建造者模式
  * @Date: 2022-02-11 10:12:08
- * @LastEditTime: 2022-02-11 19:18:08
+ * @LastEditTime: 2022-02-12 09:36:24
  */
 package builder
 
@@ -18,12 +18,12 @@ type Computer interface {
 }
 
 //定义一个构建者
-type Creator struct {
+type Builder struct {
 	Computer Computer
 }
 
 //创建构建者方法
-func (builder *Creator) Construct() *Computer {
+func (builder *Builder) Construct() *Computer {
 	builder.Computer.MakeCpu()
 	builder.Computer.MakeKeyBoard()
 	builder.Computer.MakeScreen()
@@ -55,23 +55,23 @@ func (c *ChinaComputer) MakeScreen() {
 	c.Screen = "china screen"
 }
 
-func Builder() {
+func BuilderDemo() {
 	//构建中国制造电脑结构
 	c := ChinaComputer{}
 	//将中国电脑结构注入构建者中
-	b := Creator{Computer: &c}
+	b := Builder{&c}
 	//通过构建者,生产中国电脑
 	Computer := b.Construct()
-	fmt.Printf("%+v", *Computer)
+	fmt.Printf("构建完成:%+v", *Computer)
 	fmt.Println("")
 
 	//构建cc制造电脑结构
 	u := CcComputer{}
 	//将cc电脑结构注入构建者中
-	b = Creator{Computer: &u}
+	b = Builder{&u}
 	//通过构建者,生产cc电脑
 	Uk := b.Construct()
-	fmt.Printf("%+v", *Uk)
+	fmt.Printf("构建完成:%+v", *Uk)
 	fmt.Println("")
 }
 
