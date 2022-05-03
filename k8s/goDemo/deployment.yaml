@@ -1,20 +1,20 @@
-apiVersion: apps/v1
+apiVersion: apps/v1 #声明了对象的API版本，Kubernetes会去对应的包里加载库文件
 kind: Deployment
-metadata:
+metadata: # Deployment的元数据
   name: my-go-app
 spec:
-  replicas: 1
+  replicas: 1 # ReplicaSet部分的定义
   selector:
     matchLabels:
       app: go-app
-  template:
+  template: # Pod 模板的定义
     metadata:
       labels:
         app: go-app
-    spec:
+    spec: # Pod里容器相关的定义
       containers:
         - name: go-app-container
-          image: go-app-img
+          image: go-app-img #镜像名
           imagePullPolicy: IfNotPresent #如果本地不存在则拉取仓库中的 /Never 不从仓库中拉取镜像，只用本机的
           resources:
             limits:
