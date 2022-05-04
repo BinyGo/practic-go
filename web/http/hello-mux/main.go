@@ -14,7 +14,7 @@ import (
 func main() {
 	muxRouter := mux.NewRouter()
 
-	ResisterRoutes(muxRouter)
+	RegisterRoutes(muxRouter)
 
 	server := &http.Server{
 		Addr:    ":8999",
