@@ -7,6 +7,13 @@ import (
 
 //http://localhost:8999/display_headers?aa=cc&bb=dd
 func DisplayHeadersHandler(w http.ResponseWriter, r *http.Request) {
+	c := http.Cookie{
+		Domain:   "example.com", //设置的Cookie需要被其他子域名的服务访问
+		HttpOnly: true,          //为避免跨域脚本 (XSS) 攻击，通过JavaScript的API无法访问带有 HttpOnly 标记的Cookie，它们只应该发送给服务端。
+	}
+	http.SetCookie(w, &c)
+	//很多cookie设置: https://mp.weixin.qq.com/s?__biz=MzUzNTY5MzU2MA==&mid=2247484287&idx=1&sn=54baf9ab1739b2001a2e1aec6d6a2d66&chksm=fa80d2e8cdf75bfe8110856f8719be79db94a7de96fe771b9d38ea1d9a93957e7122c5fce780&cur_album_id=1323498303014780929&scene=189#wechat_redirect
+
 	fmt.Fprintf(w, "Method: %s Protocol: %s \n", r.Method, r.Proto)
 
 	// 遍历所有请求头
@@ -34,6 +41,8 @@ func DisplayHeadersHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+
 	http.HandleFunc("/display_headers", DisplayHeadersHandler)
-	http.ListenAndServe(":8999", nil)
+	http.ListenAndServe(":8998", nil)
+	//http://localhost:8999/display_headers
 }
