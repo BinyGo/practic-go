@@ -1,0 +1,4 @@
+{"level":"info","msg":"记录一下日志Info","name":"biny","time":"2022-05-09 09:29:48"}
+{"level":"error","msg":"记录一下日志Error","name":"biny","time":"2022-05-09 09:29:48"}
+{"level":"warning","msg":"记录一下日志Warn","name":"biny","time":"2022-05-09 09:29:48"}
+{"level":"debug","msg":"记录一下日志Debug","name":"biny","time":"2022-05-09 09:29:48"}
