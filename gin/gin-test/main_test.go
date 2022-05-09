@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"encoding/json"
+	"net/http"
 	"net/http/httptest"
 	"testing"
 
@@ -10,23 +11,28 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func Test_main(t *testing.T) {
-	router := Router()
-	w := httptest.NewRecorder()
-	req := httptest.NewRequest("GET", "/ping", nil)
-	router.ServeHTTP(w, req)
-
-	assert.Equal(t, 200, w.Code)
-	assert.Equal(t, "ping", w.Body.String())
-}
-
-func Test_main2(t *testing.T) {
+func Test_Ping(t *testing.T) {
 	router := Router()
 	w := Get("/ping", router)
 
-	assert.Equal(t, 200, w.Code)
-	assert.Equal(t, "ping", w.Body.String())
+	assert.Equal(t, http.StatusOK, w.Code)
+	assert.Equal(t, `{"message":"biny"}`, w.Body.String())
+}
 
+func Test_User(t *testing.T) {
+	router := Router()
+	w := Get("/user/binyGo", router)
+
+	assert.Equal(t, http.StatusOK, w.Code)
+	assert.Equal(t, "binyGo", w.Body.String())
+}
+
+func Test_Welcome(t *testing.T) {
+	router := Router()
+	w := Get("/welcome?firstname=biny&lastname=Go", router)
+
+	assert.Equal(t, http.StatusOK, w.Code)
+	assert.Equal(t, "binyGo", w.Body.String())
 }
 
 func Get(uri string, router *gin.Engine) *httptest.ResponseRecorder {
