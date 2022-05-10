@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/practic-go/gin/blog/global"
+	"github.com/practic-go/gin/blog/internal/model"
 	"github.com/practic-go/gin/blog/internal/routers"
 	"github.com/practic-go/gin/blog/pkg/setting"
 )
@@ -14,6 +15,11 @@ func init() {
 	err := setupSetting()
 	if err != nil {
 		log.Fatalf("init.setupSetting err: %v", err)
+	}
+
+	err = setupDBEngine()
+	if err != nil {
+		log.Fatalf("init.setupDBEngine err: %v", err)
 	}
 }
 
@@ -49,5 +55,15 @@ func setupSetting() error {
 
 	global.ServerSetting.ReadTimeout *= time.Second
 	global.ServerSetting.WriteTimeout *= time.Second
+	return nil
+}
+
+func setupDBEngine() error {
+	var err error
+	global.DBEngine, err = model.NewDBEngine(global.DatabaseSetting)
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
