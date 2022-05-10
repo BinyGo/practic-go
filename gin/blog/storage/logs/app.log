@@ -1,1 +1,2 @@
 2022/05/10 22:06:14 {"callers":["/golang/src/github.com/practic-go/gin/blog/main.go: 22 main.init.0"],"level":"info","message":"biny: go-programming-tour-book/blog","time":1652191574112752732}
+2022/05/10 22:16:43 {"callers":["/golang/src/github.com/practic-go/gin/blog/main.go: 22 main.init.0"],"level":"info","message":"biny: go-programming-tour-book/blog","time":1652192203978953662}
