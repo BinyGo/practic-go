@@ -1,5 +1,7 @@
 package model
 
+import "github.com/practic-go/gin/blog/pkg/app"
+
 type Tag struct {
 	*Model
 	Name  string `gorm:"name" json:"name"`   // 标签名称
@@ -8,4 +10,9 @@ type Tag struct {
 
 func (t Tag) TableName() string {
 	return "blog_tag"
+}
+
+type TagSwagger struct {
+	List  []*Tag
+	Pager *app.Pager
 }

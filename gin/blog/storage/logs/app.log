@@ -1,2 +1,7 @@
 2022/05/10 22:06:14 {"callers":["/golang/src/github.com/practic-go/gin/blog/main.go: 22 main.init.0"],"level":"info","message":"biny: go-programming-tour-book/blog","time":1652191574112752732}
 2022/05/10 22:16:43 {"callers":["/golang/src/github.com/practic-go/gin/blog/main.go: 22 main.init.0"],"level":"info","message":"biny: go-programming-tour-book/blog","time":1652192203978953662}
+2022/05/10 22:23:49 {"callers":["/golang/src/github.com/practic-go/gin/blog/main.go: 22 main.init.0"],"level":"info","message":"biny: go-programming-tour-book/blog","time":1652192629010946049}
+2022/05/10 22:30:01 {"callers":["/golang/src/github.com/practic-go/gin/blog/main.go: 22 main.init.0"],"level":"info","message":"biny: go-programming-tour-book/blog","time":1652193001032477238}
+2022/05/10 22:32:45 {"callers":["/golang/src/github.com/practic-go/gin/blog/main.go: 22 main.init.0"],"level":"info","message":"biny: go-programming-tour-book/blog","time":1652193165353114183}
+2022/05/10 22:39:53 {"callers":["/golang/src/github.com/practic-go/gin/blog/main.go: 22 main.init.0"],"level":"info","message":"biny: go-programming-tour-book/blog","time":1652193593834079100}
+2022/05/10 22:42:00 {"callers":["/golang/src/github.com/practic-go/gin/blog/main.go: 22 main.init.0"],"level":"info","message":"biny: go-programming-tour-book/blog","time":1652193720279133946}

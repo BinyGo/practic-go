@@ -1,5 +1,7 @@
 package model
 
+import "github.com/practic-go/gin/blog/pkg/app"
+
 type Article struct {
 	*Model
 	Title         string `gorm:"title" json:"title"`                     // 文章标题
@@ -11,4 +13,9 @@ type Article struct {
 
 func (t Article) TableName() string {
 	return "blog_article"
+}
+
+type ArticleSwagger struct {
+	List  []*Article
+	Pager *app.Pager
 }
