@@ -5,25 +5,33 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/natefinch/lumberjack"
 	"github.com/practic-go/gin/blog/global"
 	"github.com/practic-go/gin/blog/internal/model"
 	"github.com/practic-go/gin/blog/internal/routers"
+	"github.com/practic-go/gin/blog/pkg/logger"
 	"github.com/practic-go/gin/blog/pkg/setting"
 )
 
 func init() {
-	err := setupSetting()
+	err := setupSetting() // 初始化配置
 	if err != nil {
 		log.Fatalf("init.setupSetting err: %v", err)
 	}
 
-	err = setupDBEngine()
+	err = setupLogger() // 初始化日志
+	if err != nil {
+		log.Fatalf("init.setupLogger err: %v", err)
+	}
+
+	err = setupDBEngine() // 初始化数据库
 	if err != nil {
 		log.Fatalf("init.setupDBEngine err: %v", err)
 	}
 }
 
 func main() {
+	global.Logger.Infof("%s: go-programming-tour-book/%s", "biny", "blog")
 	router := routers.NewRouter()
 	srv := &http.Server{
 		Addr:           ":" + global.ServerSetting.HttpPort,
@@ -33,6 +41,7 @@ func main() {
 		MaxHeaderBytes: 1 << 20,
 	}
 	srv.ListenAndServe()
+
 }
 
 func setupSetting() error {
@@ -55,6 +64,17 @@ func setupSetting() error {
 
 	global.ServerSetting.ReadTimeout *= time.Second
 	global.ServerSetting.WriteTimeout *= time.Second
+	return nil
+}
+
+func setupLogger() error {
+	global.Logger = logger.NewLogger(&lumberjack.Logger{
+		Filename:  global.AppSetting.LogSavePath + "/" + global.AppSetting.LogFileName + global.AppSetting.LogFileExt,
+		MaxSize:   600,
+		MaxAge:    10,
+		LocalTime: true,
+	}, "", log.LstdFlags).WithCaller(2)
+
 	return nil
 }
 

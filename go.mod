@@ -19,6 +19,8 @@ require (
 )
 
 require (
+	github.com/natefinch/lumberjack v2.0.0+incompatible
 	github.com/spf13/viper v1.11.0
 	golang.org/x/sys v0.0.0-20220503163025-988cb79eb6c6 // indirect
+	gopkg.in/natefinch/lumberjack.v2 v2.0.0 // indirect
 )
