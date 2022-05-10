@@ -1,0 +1,22 @@
+Server:
+  RunMode: debug #gin 的运行模式 debug/test/release(线上模式)    或设置环境变量env:export GIN_MODE=release
+  HttpPort: 8999
+  ReadTimeout: 60
+  WriteTimeout: 60
+App:
+  DefaultPageSize: 10 #默认每页数量
+  MaxPageSize: 100 #最大每页数量
+  LogSavePath: storage/logs #日志存储路径
+  LogFileName: app
+  LogFileExt: .log
+Database:
+  DBType: mysql
+  Username: root  # 填写你的数据库账号
+  Password: root  # 填写你的数据库密码
+  Host: 127.0.0.1:30306
+  DBName: blog
+  TablePrefix: blog_
+  Charset: utf8
+  ParseTime: True
+  MaxIdleConns: 10
+  MaxOpenConns: 30
