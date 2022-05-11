@@ -9,11 +9,12 @@ import (
 	"github.com/practic-go/gin/blog/pkg/setting"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 	"gorm.io/gorm/logger"
 )
 
 type Model struct {
-	Id         uint32 `gorm:"id" json:"id"`
+	ID         uint32 `gorm:"id" json:"id"`
 	CreatedBy  string `gorm:"created_by" json:"created_by"`   // 创建人
 	ModifiedBy string `gorm:"modified_by" json:"modified_by"` // 修改人
 	CreatedOn  uint32 `gorm:"created_on" json:"created_on"`   // 创建时间
@@ -59,6 +60,75 @@ func NewDBEngine(databaseSetting *setting.DatabaseSettingS) (*gorm.DB, error) {
 	sqlDB.SetMaxOpenConns(100)                  // SetMaxOpenConns 设置到数据库的最大打开连接数。
 	sqlDB.SetMaxIdleConns(10)                   // SetMaxIdleConns 设置空闲连接池的最大连接数。
 	sqlDB.SetConnMaxLifetime(time.Second * 300) // SetConnMaxLifetime 设置连接可以重用的最长时间。
+	db.Callback().Create().Replace("gorm:update_time_stamp", updateTimeStampForCreateCallback)
+	//db.Callback().Create().Replace("gorm:before_create", updateTimeStampForCreateCallback)
+	db.Callback().Update().Replace("gorm:update_time_stamp", updateTimeStampForUpdateCallback)
+	//db.Callback().Update().Replace("gorm:before_update", updateTimeStampForUpdateCallback)
+	db.Callback().Delete().Replace("gorm:delete", deleteCallback)
 
 	return db, nil
+}
+
+func updateTimeStampForCreateCallback(db *gorm.DB) {
+
+	if db.Error == nil {
+		if createTimeField, ok := db.Statement.Schema.FieldsByName["CreatedOn"]; ok {
+			if !createTimeField.NotNull {
+				_ = createTimeField.AutoCreateTime
+			}
+		}
+
+		if createTimeField, ok := db.Statement.Schema.FieldsByName["ModifiedOn"]; ok {
+			if !createTimeField.NotNull {
+				_ = createTimeField.AutoUpdateTime
+			}
+		}
+		//db.Statement.SetColumn("CreatedOn", time.Now().Unix())
+
+	}
+}
+
+func updateTimeStampForUpdateCallback(db *gorm.DB) {
+	if _, ok := db.Get("gorm:update_column"); !ok {
+		_ = db.Set("ModifiedOn", time.Now().Unix())
+	}
+	//db.Statement.SetColumn("ModifiedOn", time.Now().Unix())
+}
+
+func deleteCallback(db *gorm.DB) {
+	if db.Error == nil {
+		if db.Statement.Schema != nil {
+			db.Statement.SQL.Grow(100)
+			deleteField := db.Statement.Schema.LookUpField("DeletedOn")
+			if !db.Statement.Unscoped && deleteField != nil {
+				//Soft Delete
+				if db.Statement.SQL.String() == "" {
+					nowTime := time.Now().Unix()
+					db.Statement.AddClause(
+						clause.Set{{
+							Column: clause.Column{Name: deleteField.DBName},
+							Value:  nowTime,
+						}},
+					)
+					db.Statement.AddClauseIfNotExists(clause.Update{})
+					db.Statement.Build("UPDATE", "SET", "WHERE")
+				}
+			} else {
+				//Delete
+				if db.Statement.SQL.String() == "" {
+					db.Statement.AddClauseIfNotExists(clause.Delete{})
+					db.Statement.AddClauseIfNotExists(clause.From{})
+					db.Statement.Build("DELETE", "FROM", "WHERE")
+				}
+			}
+			fmt.Println(db.Statement.SQL.String())
+			fmt.Println(db.Statement.Vars)
+			//Must Need WHERE
+			if _, ok := db.Statement.Clauses["WHERE"]; !db.AllowGlobalUpdate && !ok {
+				db.AddError(gorm.ErrMissingWhereClause)
+				return
+			}
+			db.Exec(db.Statement.SQL.String(), db.Statement.Vars...)
+		}
+	}
 }

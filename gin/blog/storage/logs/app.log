@@ -9,3 +9,12 @@
 2022/05/11 10:01:35 {"callers":["/golang/src/github.com/practic-go/gin/blog/main.go: 22 main.init.0"],"level":"error","message":"app.BindAndValid errs: State必须是[0 1]中的一个","time":1652234495088124651}
 2022/05/11 10:06:08 {"callers":["/golang/src/github.com/practic-go/gin/blog/main.go: 22 main.init.0"],"level":"info","message":"biny: go-programming-tour-book/blog","time":1652234768983780434}
 2022/05/11 10:06:11 {"callers":["/golang/src/github.com/practic-go/gin/blog/main.go: 22 main.init.0"],"level":"error","message":"app.BindAndValid errs: State必须是[0 1]中的一个","time":1652234771897224919}
+2022/05/11 12:02:37 {"callers":["/golang/src/github.com/practic-go/gin/blog/main.go: 22 main.init.0"],"level":"info","message":"biny: go-programming-tour-book/blog","time":1652241757406543331}
+2022/05/11 12:02:59 {"callers":["/golang/src/github.com/practic-go/gin/blog/main.go: 22 main.init.0"],"level":"error","message":"app.BindAndValid errs: Name长度必须至少为3个字符","time":1652241779693414016}
+2022/05/11 12:07:14 {"callers":["/golang/src/github.com/practic-go/gin/blog/main.go: 22 main.init.0"],"level":"error","message":"app.BindAndValid errs: Name长度必须至少为3个字符,State必须是[0 1]中的一个","time":1652242034865567065}
+2022/05/11 12:07:23 {"callers":["/golang/src/github.com/practic-go/gin/blog/main.go: 22 main.init.0"],"level":"error","message":"app.BindAndValid errs: Name长度必须至少为3个字符,State为必填字段","time":1652242043129116450}
+2022/05/11 12:08:38 {"callers":["/golang/src/github.com/practic-go/gin/blog/main.go: 22 main.init.0"],"level":"error","message":"app.BindAndValid errs: State为必填字段","time":1652242118026729563}
+2022/05/11 12:10:16 {"callers":["/golang/src/github.com/practic-go/gin/blog/main.go: 22 main.init.0"],"level":"error","message":"svc.DeleteTag err: sql: expected 3 arguments, got 6","time":1652242216002115658}
+2022/05/11 12:11:45 {"callers":["/golang/src/github.com/practic-go/gin/blog/main.go: 22 main.init.0"],"level":"info","message":"biny: go-programming-tour-book/blog","time":1652242305833136949}
+2022/05/11 13:09:15 {"callers":["/golang/src/github.com/practic-go/gin/blog/main.go: 22 main.init.0"],"level":"info","message":"biny: go-programming-tour-book/blog","time":1652245755738770874}
+2022/05/11 13:09:31 {"callers":["/golang/src/github.com/practic-go/gin/blog/main.go: 22 main.init.0"],"level":"error","message":"app.BindAndValid errs: State为必填字段","time":1652245771547976019}
