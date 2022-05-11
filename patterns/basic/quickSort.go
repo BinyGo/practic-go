@@ -30,7 +30,7 @@ func QuickSortExec() {
 
 }
 
-func QuickExec() {
+func QuickSortExecV2() {
 	arr2 := []int{1, 9, 11, 30, 2, 5, 45, 8, 63, 235, 12, 1, 9, 11, 30, 2, 5, 45, 8, 63, 235, 12}
 	Quick(arr2, 0, len(arr2)-1) //原地排序,最优解法
 	//fmt.Println(arr2)

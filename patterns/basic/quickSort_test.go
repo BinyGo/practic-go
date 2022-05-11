@@ -5,6 +5,7 @@ import (
 	"testing"
 )
 
+//go test -v -run TestQuickSort
 func TestQuickSort(t *testing.T) {
 	type args struct {
 		arr []int
@@ -27,7 +28,7 @@ func TestQuickSort(t *testing.T) {
 }
 func Test_Quick(t *testing.T) {
 	QuickSortExec()
-	QuickExec()
+	QuickSortExecV2()
 }
 
 func BenchmarkQuickSort(b *testing.B) {
@@ -37,9 +38,9 @@ func BenchmarkQuickSort(b *testing.B) {
 	}
 }
 
-func BenchmarkQuick(b *testing.B) {
+func BenchmarkQuickSortV2(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		QuickExec()
+		QuickSortExecV2()
 	}
 }
 
