@@ -5,3 +5,7 @@
 2022/05/10 22:32:45 {"callers":["/golang/src/github.com/practic-go/gin/blog/main.go: 22 main.init.0"],"level":"info","message":"biny: go-programming-tour-book/blog","time":1652193165353114183}
 2022/05/10 22:39:53 {"callers":["/golang/src/github.com/practic-go/gin/blog/main.go: 22 main.init.0"],"level":"info","message":"biny: go-programming-tour-book/blog","time":1652193593834079100}
 2022/05/10 22:42:00 {"callers":["/golang/src/github.com/practic-go/gin/blog/main.go: 22 main.init.0"],"level":"info","message":"biny: go-programming-tour-book/blog","time":1652193720279133946}
+2022/05/11 10:01:18 {"callers":["/golang/src/github.com/practic-go/gin/blog/main.go: 22 main.init.0"],"level":"info","message":"biny: go-programming-tour-book/blog","time":1652234478620808834}
+2022/05/11 10:01:35 {"callers":["/golang/src/github.com/practic-go/gin/blog/main.go: 22 main.init.0"],"level":"error","message":"app.BindAndValid errs: State必须是[0 1]中的一个","time":1652234495088124651}
+2022/05/11 10:06:08 {"callers":["/golang/src/github.com/practic-go/gin/blog/main.go: 22 main.init.0"],"level":"info","message":"biny: go-programming-tour-book/blog","time":1652234768983780434}
+2022/05/11 10:06:11 {"callers":["/golang/src/github.com/practic-go/gin/blog/main.go: 22 main.init.0"],"level":"error","message":"app.BindAndValid errs: State必须是[0 1]中的一个","time":1652234771897224919}
