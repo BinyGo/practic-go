@@ -13,6 +13,7 @@ var (
 )
 
 var (
-	DBEngine *gorm.DB
-	Logger   *logger.Logger
+	DBEngine   *gorm.DB
+	Logger     *logger.Logger
+	JWTSetting *setting.JWTSettingS
 )
