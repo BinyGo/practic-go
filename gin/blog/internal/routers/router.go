@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	_ "github.com/practic-go/gin/blog/docs"
 	"github.com/practic-go/gin/blog/internal/middleware"
+	"github.com/practic-go/gin/blog/internal/routers/api"
 	v1 "github.com/practic-go/gin/blog/internal/routers/api/v1"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"github.com/swaggo/gin-swagger/swaggerFiles"
@@ -18,6 +19,10 @@ func NewRouter() *gin.Engine {
 
 	tag := v1.NewTag()
 	article := v1.NewArticle()
+	upload := api.NewUpload()
+	//curl -X POST http://127.0.0.1:8999/upload/file -F "file=@/golang/src/github.com/practic-go/README.md" -F type=1
+	//curl -X POST http://127.0.0.1:8999/upload/file -F "file=@/golang/src/github.com/practic-go/gin/blog/storage/uploads/biny.jpg" -F type=1
+	r.POST("/upload/file", upload.UploadFile)
 
 	apiV1 := r.Group("/api/v1")
 	{

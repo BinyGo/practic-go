@@ -18,3 +18,7 @@
 2022/05/11 12:11:45 {"callers":["/golang/src/github.com/practic-go/gin/blog/main.go: 22 main.init.0"],"level":"info","message":"biny: go-programming-tour-book/blog","time":1652242305833136949}
 2022/05/11 13:09:15 {"callers":["/golang/src/github.com/practic-go/gin/blog/main.go: 22 main.init.0"],"level":"info","message":"biny: go-programming-tour-book/blog","time":1652245755738770874}
 2022/05/11 13:09:31 {"callers":["/golang/src/github.com/practic-go/gin/blog/main.go: 22 main.init.0"],"level":"error","message":"app.BindAndValid errs: State为必填字段","time":1652245771547976019}
+2022/05/12 09:57:12 {"callers":["/golang/src/github.com/practic-go/gin/blog/main.go: 22 main.init.0"],"level":"info","message":"biny: go-programming-tour-book/blog","time":1652320632608520602}
+2022/05/12 10:07:30 {"callers":["/golang/src/github.com/practic-go/gin/blog/main.go: 22 main.init.0"],"level":"error","message":"svc.UploadFile err: file suffix is not supported","time":1652321250437631703}
+2022/05/12 10:10:27 {"callers":["/golang/src/github.com/practic-go/gin/blog/main.go: 22 main.init.0"],"level":"error","message":"svc.UploadFile err: file suffix is not supported","time":1652321427502329045}
+2022/05/12 10:12:44 {"callers":["/golang/src/github.com/practic-go/gin/blog/main.go: 22 main.init.0"],"level":"info","message":"biny: go-programming-tour-book/blog","time":1652321564200140946}
