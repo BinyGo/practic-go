@@ -31,7 +31,7 @@ func init() {
 }
 
 func main() {
-	global.Logger.Infof("%s: go-programming-tour-book/%s", "biny", "blog")
+	//global.Logger.Infof("%s: go-blog/%s", "biny", "blog")
 	router := routers.NewRouter()
 	srv := &http.Server{
 		Addr:           ":" + global.ServerSetting.HttpPort,
