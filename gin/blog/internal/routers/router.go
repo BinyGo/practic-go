@@ -2,6 +2,7 @@ package routers
 
 import (
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	_ "github.com/practic-go/gin/blog/docs"
@@ -9,23 +10,38 @@ import (
 	"github.com/practic-go/gin/blog/internal/middleware"
 	"github.com/practic-go/gin/blog/internal/routers/api"
 	v1 "github.com/practic-go/gin/blog/internal/routers/api/v1"
+	"github.com/practic-go/gin/blog/pkg/limiter"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"github.com/swaggo/gin-swagger/swaggerFiles"
 )
 
+var methodLimiters = limiter.NewMethodLimiter().AddBuckets(limiter.LimiterBucketRule{
+	Key:          "/auth",
+	FillInterval: time.Second,
+	Capacity:     10,
+	Quantum:      10,
+})
+
 func NewRouter() *gin.Engine {
 	r := gin.New()
-	//r.Use(gin.Logger())
+	// 本地环境
+	// if global.ServerSetting.RunMode == "debug" {
+	// 	r.Use(gin.Logger())
+	// }
+
 	r.Use(gin.Recovery())
 	r.Use(middleware.AccessLog())
+
+	r.Use(middleware.RateLimiter(methodLimiters))
+	r.Use(middleware.ContextTimeout(global.AppSetting.DefaultContextTimeout))
+
 	r.Use(middleware.Translations())
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	tag := v1.NewTag()
 	article := v1.NewArticle()
 	upload := api.NewUpload()
-	//curl -X POST http://127.0.0.1:8999/upload/file -F "file=@/golang/src/github.com/practic-go/README.md" -F type=1
-	//curl -X POST http://127.0.0.1:8999/upload/file -F "file=@/golang/src/github.com/practic-go/gin/blog/storage/uploads/biny.jpg" -F type=1
+
 	r.POST("/upload/file", upload.UploadFile)
 	r.StaticFS("/static", http.Dir(global.AppSetting.UploadSavePath))
 

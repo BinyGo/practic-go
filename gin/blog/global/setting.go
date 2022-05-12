@@ -10,10 +10,10 @@ var (
 	ServerSetting   *setting.ServerSettingS
 	AppSetting      *setting.AppSettingS
 	DatabaseSetting *setting.DatabaseSettingS
+	JWTSetting      *setting.JWTSettingS
 )
 
 var (
-	DBEngine   *gorm.DB
-	Logger     *logger.Logger
-	JWTSetting *setting.JWTSettingS
+	DBEngine *gorm.DB
+	Logger   *logger.Logger
 )

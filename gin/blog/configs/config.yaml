@@ -4,6 +4,7 @@ Server:
   ReadTimeout: 60
   WriteTimeout: 60
 App:
+  DefaultContextTimeout: 30s #ContextTimeout超时时间(秒)
   DefaultPageSize: 10 #默认每页数量
   MaxPageSize: 100 #最大每页数量
   LogSavePath: storage/logs #日志存储路径
