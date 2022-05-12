@@ -1,8 +1,11 @@
 package routers
 
 import (
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 	_ "github.com/practic-go/gin/blog/docs"
+	"github.com/practic-go/gin/blog/global"
 	"github.com/practic-go/gin/blog/internal/middleware"
 	"github.com/practic-go/gin/blog/internal/routers/api"
 	v1 "github.com/practic-go/gin/blog/internal/routers/api/v1"
@@ -23,6 +26,7 @@ func NewRouter() *gin.Engine {
 	//curl -X POST http://127.0.0.1:8999/upload/file -F "file=@/golang/src/github.com/practic-go/README.md" -F type=1
 	//curl -X POST http://127.0.0.1:8999/upload/file -F "file=@/golang/src/github.com/practic-go/gin/blog/storage/uploads/biny.jpg" -F type=1
 	r.POST("/upload/file", upload.UploadFile)
+	r.StaticFS("/static", http.Dir(global.AppSetting.UploadSavePath))
 
 	apiV1 := r.Group("/api/v1")
 	{
