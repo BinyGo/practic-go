@@ -56,3 +56,8 @@ Running 30s test @ http://localhost:8080/ping
 Requests/sec:  52067.10 //每秒查询数（QPS）：每秒查询数 QPS 是对一个特定的查询服务器在规定时间内所处理流量多少的衡量标准。QPS = 并发数 / 平均请求响应时间。
 Transfer/sec:      7.05MB //平均每秒读取 7.05MB 数据（吞吐量）
 ```
+
+# go race 竞态检测
+go run -race main.go
+
+# go vet （静态代码检查）

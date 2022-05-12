@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/practic-go/gin/blog/pkg/setting"
+	"github.com/practic-go/gin/blog/pkg/tracer_gorm"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
@@ -24,12 +25,18 @@ type Model struct {
 }
 
 func NewDBEngine(databaseSetting *setting.DatabaseSettingS) (*gorm.DB, error) {
+	// 1. 初始化Jaeger
+	// closer, err := tracer_gorm.InitJaeger()
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+	// defer closer.Close()
 
 	newLogger := logger.New(
 		log.New(os.Stdout, "\r\n", log.LstdFlags), // io writer
 		logger.Config{
 			SlowThreshold: time.Second, // 慢 SQL 阈值
-			LogLevel:      logger.Info, // Log level
+			LogLevel:      logger.Warn, // Log level
 			Colorful:      false,       // 禁用彩色打印
 		},
 	)
@@ -45,10 +52,21 @@ func NewDBEngine(databaseSetting *setting.DatabaseSettingS) (*gorm.DB, error) {
 		databaseSetting.ParseTime,
 	)
 
+	//db, err := gorm.Open(mysql.Open(s), &gorm.Config{Logger: newLogger})
 	db, err := gorm.Open(mysql.Open(s), &gorm.Config{Logger: newLogger})
 	if err != nil {
 		return nil, err
 	}
+	// 3. 最重要的一步，使用我们定义的插件
+	_ = db.Use(&tracer_gorm.OpentracingPlugin{})
+	// 4. 生成新的Span - 注意将span结束掉，不然无法发送对应的结果
+	// span := opentracing.StartSpan("gormTracing unit test")
+	// defer span.Finish()
+	// 5. 把生成的Root Span写入到Context上下文，获取一个子Context
+	// 通常在Web项目中，Root Span由中间件生成
+	//ctx := opentracing.ContextWithSpan(context.Background(), span)
+	//db.WithContext(context.Background())
+
 	sqlDB, err := db.DB()
 	if err != nil {
 		panic(err)
@@ -56,7 +74,6 @@ func NewDBEngine(databaseSetting *setting.DatabaseSettingS) (*gorm.DB, error) {
 	if err = sqlDB.Ping(); err != nil {
 		panic(err)
 	}
-
 	sqlDB.SetMaxOpenConns(100)                  // SetMaxOpenConns 设置到数据库的最大打开连接数。
 	sqlDB.SetMaxIdleConns(10)                   // SetMaxIdleConns 设置空闲连接池的最大连接数。
 	sqlDB.SetConnMaxLifetime(time.Second * 300) // SetConnMaxLifetime 设置连接可以重用的最长时间。

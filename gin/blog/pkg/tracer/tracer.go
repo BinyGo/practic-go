@@ -5,6 +5,7 @@ import (
 	"time"
 
 	opentracing "github.com/opentracing/opentracing-go"
+	"github.com/uber/jaeger-client-go"
 	"github.com/uber/jaeger-client-go/config"
 )
 
@@ -12,12 +13,12 @@ func NewJaegerTracer(serviceName, agentHostPort string) (opentracing.Tracer, io.
 	cfg := &config.Configuration{
 		ServiceName: serviceName,
 		Sampler: &config.SamplerConfig{
-			Type:  "const",
+			Type:  jaeger.SamplerTypeConst,
 			Param: 1,
 		},
 		Reporter: &config.ReporterConfig{
 			LogSpans:            true,
-			BufferFlushInterval: 1 * time.Second,
+			BufferFlushInterval: 3 * time.Second,
 			LocalAgentHostPort:  agentHostPort,
 		},
 	}

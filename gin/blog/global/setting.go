@@ -15,7 +15,8 @@ var (
 )
 
 var (
-	DBEngine *gorm.DB
-	Logger   *logger.Logger
-	Tracer   opentracing.Tracer
+	DBEngine   *gorm.DB
+	Logger     *logger.Logger
+	Tracer     opentracing.Tracer
+	TracerSpan opentracing.Span
 )

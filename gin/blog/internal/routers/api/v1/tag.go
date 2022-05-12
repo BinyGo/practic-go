@@ -29,16 +29,17 @@ func (t Tag) Get(c *gin.Context) {}
 // @Router /api/v1/tags [get]
 // curl -X GET 'http://127.0.0.1:8999/api/v1/tags?page=1&page_size=2'
 func (t Tag) List(c *gin.Context) {
-	param := service.TagListRequest{}
+	param := service.TagListRequest{Name: "Golang", State: 1}
 	response := app.NewResponse(c)
-	valid, errs := app.BindAndValid(c, &param)
-	if !valid {
-		/* 	curl -X GET http://127.0.0.1:8000/api/v1/tags\?state\=6
-		{"code":10000001,"details":["State 必须是[0 1]中的一个"],"msg":"入参错误"} */
-		global.Logger.Errorf("app.BindAndValid errs: %v", errs)
-		response.ToErrorResponse(errcode.InvalidParams.WithDetails(errs.Errors()...))
-		return
-	}
+	// valid, errs := app.BindAndValid(c, &param)
+	// if !valid {
+	// 	/* 	 wrk -t2 -c10 -d10s -T10s --latency http://127.0.0.1:8999/api/v1/tags
+	//	curl -X GET http://127.0.0.1:8999/api/v1/tags?state=6&name=Golang
+	// 	{"code":10000001,"details":["State 必须是[0 1]中的一个"],"msg":"入参错误"} */
+	// 	global.Logger.Errorf("app.BindAndValid errs: %v", errs)
+	// 	response.ToErrorResponse(errcode.InvalidParams.WithDetails(errs.Errors()...))
+	// 	return
+	// }
 
 	svc := service.New(c.Request.Context())
 	pager := app.Pager{Page: app.GetPage(c), PageSize: app.GetPageSize(c)}

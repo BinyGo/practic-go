@@ -33,9 +33,12 @@ func Tracing() func(c *gin.Context) {
 				opentracing.Tag{Key: string(ext.Component), Value: "HTTP"},
 			)
 		}
+		//fmt.Printf("%+v", global.TracerSpan)
+		global.TracerSpan = span
 		defer span.Finish()
 		var traceID string
 		var spanID string
+
 		var spanContext = span.Context()
 
 		switch spanContext.(type) {

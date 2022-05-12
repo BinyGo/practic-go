@@ -16,7 +16,7 @@ import (
 )
 
 var methodLimiters = limiter.NewMethodLimiter().AddBuckets(limiter.LimiterBucketRule{
-	Key:          "/auth",
+	Key:          "/api",
 	FillInterval: time.Second,
 	Capacity:     10,
 	Quantum:      10,
@@ -25,16 +25,20 @@ var methodLimiters = limiter.NewMethodLimiter().AddBuckets(limiter.LimiterBucket
 func NewRouter() *gin.Engine {
 	r := gin.New()
 	// 本地环境
-	// if global.ServerSetting.RunMode == "debug" {
-	// 	r.Use(gin.Logger())
-	// }
-
-	r.Use(gin.Recovery())
-	r.Use(middleware.Tracing())
-	r.Use(middleware.AccessLog())
-
-	r.Use(middleware.RateLimiter(methodLimiters))
-	r.Use(middleware.ContextTimeout(global.AppSetting.DefaultContextTimeout))
+	if global.ServerSetting.RunMode == "debug" {
+		r.Use(gin.Logger()) //控制台输出访问日志
+		r.Use(gin.Recovery())
+		r.Use(middleware.Tracing())
+		r.Use(middleware.AccessLog())
+		r.Use(middleware.RateLimiter(methodLimiters))
+		r.Use(middleware.ContextTimeout(global.AppSetting.DefaultContextTimeout))
+	} else {
+		r.Use(gin.Recovery())
+		r.Use(middleware.Tracing())
+		r.Use(middleware.AccessLog())
+		r.Use(middleware.RateLimiter(methodLimiters))
+		r.Use(middleware.ContextTimeout(global.AppSetting.DefaultContextTimeout))
+	}
 
 	r.Use(middleware.Translations())
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
@@ -49,7 +53,7 @@ func NewRouter() *gin.Engine {
 	r.POST("/auth", api.GetAuth)
 
 	apiV1 := r.Group("/api/v1")
-	apiV1.Use(middleware.JWT())
+	//apiV1.Use(middleware.JWT())
 	{
 		apiV1.POST("/tags", tag.Create)
 		apiV1.DELETE("/tags/:id", tag.Delete)
