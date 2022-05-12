@@ -31,6 +31,7 @@ func NewRouter() *gin.Engine {
 
 	r.Use(gin.Recovery())
 	r.Use(middleware.AccessLog())
+	r.Use(middleware.Tracing())
 
 	r.Use(middleware.RateLimiter(methodLimiters))
 	r.Use(middleware.ContextTimeout(global.AppSetting.DefaultContextTimeout))

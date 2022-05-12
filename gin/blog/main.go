@@ -11,6 +11,7 @@ import (
 	"github.com/practic-go/gin/blog/internal/routers"
 	"github.com/practic-go/gin/blog/pkg/logger"
 	"github.com/practic-go/gin/blog/pkg/setting"
+	"github.com/practic-go/gin/blog/pkg/tracer"
 )
 
 func init() {
@@ -27,6 +28,11 @@ func init() {
 	err = setupDBEngine() // 初始化数据库
 	if err != nil {
 		log.Fatalf("init.setupDBEngine err: %v", err)
+	}
+
+	err = setupTracer()
+	if err != nil {
+		log.Fatalf("init.setupTracer err: %v", err)
 	}
 }
 
@@ -90,5 +96,17 @@ func setupDBEngine() error {
 		return err
 	}
 
+	return nil
+}
+
+func setupTracer() error {
+	jaegerTracer, _, err := tracer.NewJaegerTracer(
+		"blog",
+		"127.0.0.1:6831",
+	)
+	if err != nil {
+		return err
+	}
+	global.Tracer = jaegerTracer
 	return nil
 }
