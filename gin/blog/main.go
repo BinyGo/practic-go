@@ -1,8 +1,10 @@
 package main
 
 import (
+	"flag"
 	"log"
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/natefinch/lumberjack"
@@ -14,7 +16,14 @@ import (
 	"github.com/practic-go/gin/blog/pkg/tracer"
 )
 
+var (
+	port    string
+	runMode string
+	config  string
+)
+
 func init() {
+	setupFlog()
 	err := setupSetting() // 初始化配置
 	if err != nil {
 		log.Fatalf("init.setupSetting err: %v", err)
@@ -50,7 +59,7 @@ func main() {
 }
 
 func setupSetting() error {
-	setting, err := setting.NewSetting()
+	setting, err := setting.NewSetting(strings.Split(config, ",")...)
 	if err != nil {
 		return err
 	}
@@ -74,6 +83,12 @@ func setupSetting() error {
 	global.JWTSetting.Expire *= time.Second
 	global.ServerSetting.ReadTimeout *= time.Second
 	global.ServerSetting.WriteTimeout *= time.Second
+	if port != "" {
+		global.ServerSetting.HttpPort = port
+	}
+	if runMode != "" {
+		global.ServerSetting.RunMode = runMode
+	}
 	return nil
 }
 
@@ -107,5 +122,13 @@ func setupTracer() error {
 		return err
 	}
 	global.Tracer = jaegerTracer
+	return nil
+}
+
+func setupFlog() error {
+	flag.StringVar(&port, "port", "", "启动端口")
+	flag.StringVar(&runMode, "mode", "", "启动模式")
+	flag.StringVar(&config, "config", "configs/", "指定要使用的配置文件路径")
+	flag.Parse()
 	return nil
 }

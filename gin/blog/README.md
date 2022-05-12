@@ -15,3 +15,10 @@ curl -X GET http://localhost:8999/api/v1/tags?state=6&name=biny -H 'eyJhbGciOiJI
 # upload
 curl -X POST http://localhost:8999/upload/file -F "file=@/golang/src/github.com/practic-go/README.md" -F type=1
 curl -X POST http://localhost:8999/upload/file -F "file=@/golang/src/github.com/practic-go/gin/blog/storage/uploads/biny.jpg" -F type=1
+
+# flag (run he build的os.Args获取目录不一致)
+1.使用flag命令的方式传入
+go run main.go -port=8888 -mode=release -config=configs/
+2.使用环境变量os.Getenv("ENV") 
+3.打包进二进制文件
+4.配置中心
