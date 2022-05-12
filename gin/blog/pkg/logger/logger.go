@@ -8,6 +8,8 @@ import (
 	"log"
 	"runtime"
 	"time"
+
+	"github.com/gin-gonic/gin"
 )
 
 /* 日志分级 */
@@ -144,11 +146,13 @@ func (l *Logger) Output(level Level, message string) {
 }
 
 /* 日志分级输出 */
-func (l *Logger) Info(v ...interface{}) {
+func (l *Logger) Info(ctx context.Context, v ...interface{}) {
+	l = l.WithContext(ctx).WithTrace()
 	l.Output(LevelInfo, fmt.Sprint(v...))
 }
 
-func (l *Logger) Infof(format string, v ...interface{}) {
+func (l *Logger) Infof(ctx context.Context, format string, v ...interface{}) {
+	l = l.WithContext(ctx).WithTrace()
 	l.Output(LevelInfo, fmt.Sprintf(format, v...))
 }
 
@@ -166,4 +170,15 @@ func (l *Logger) Error(v ...interface{}) {
 
 func (l *Logger) Errorf(format string, v ...interface{}) {
 	l.Output(LevelError, fmt.Sprintf(format, v...))
+}
+
+func (l *Logger) WithTrace() *Logger {
+	ginCtx, ok := l.ctx.(*gin.Context)
+	if ok {
+		return l.WithFields(Fields{
+			"trace_id": ginCtx.MustGet("X-Trace-ID"),
+			"span_id":  ginCtx.MustGet("X-Span-ID"),
+		})
+	}
+	return l
 }
