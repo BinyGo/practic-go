@@ -1,6 +1,8 @@
 package v1
 
 import (
+	"time"
+
 	"github.com/gin-gonic/gin"
 	"github.com/practic-go/gin/blog/convert"
 	"github.com/practic-go/gin/blog/global"
@@ -31,6 +33,7 @@ func (t Tag) Get(c *gin.Context) {}
 func (t Tag) List(c *gin.Context) {
 	param := service.TagListRequest{Name: "Golang", State: 1}
 	response := app.NewResponse(c)
+	time.Sleep(time.Second * 10)
 	// valid, errs := app.BindAndValid(c, &param)
 	// if !valid {
 	// 	/* 	 wrk -t1 -c1 -d1s -T1s --latency http://127.0.0.1:8999/api/v1/tags
