@@ -16,7 +16,7 @@ import (
 )
 
 var methodLimiters = limiter.NewMethodLimiter().AddBuckets(limiter.LimiterBucketRule{
-	Key:          "/api",
+	Key:          "api",
 	FillInterval: time.Second,
 	Capacity:     10,
 	Quantum:      10,

@@ -18,13 +18,14 @@ func NewMethodLimiter() LimiterIface {
 }
 
 func (l MethodLimiter) Key(c *gin.Context) string {
+	key := "api"
 	uri := c.Request.RequestURI
-	index := strings.Index(uri, "?")
+	index := strings.Index(uri, key)
 	if index == -1 {
 		return uri
 	}
-
-	return uri[:index]
+	return key
+	//return uri[:index]
 }
 
 func (l MethodLimiter) GetBucket(key string) (*ratelimit.Bucket, bool) {

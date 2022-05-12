@@ -7,7 +7,6 @@ import (
 	"time"
 
 	"github.com/practic-go/gin/blog/pkg/setting"
-	"github.com/practic-go/gin/blog/pkg/tracer_gorm"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
@@ -58,14 +57,14 @@ func NewDBEngine(databaseSetting *setting.DatabaseSettingS) (*gorm.DB, error) {
 		return nil, err
 	}
 	// 3. 最重要的一步，使用我们定义的插件
-	_ = db.Use(&tracer_gorm.OpentracingPlugin{})
-	// 4. 生成新的Span - 注意将span结束掉，不然无法发送对应的结果
+	// _ = db.Use(&tracer_gorm.OpentracingPlugin{})
+	// // 4. 生成新的Span - 注意将span结束掉，不然无法发送对应的结果
 	// span := opentracing.StartSpan("gormTracing unit test")
 	// defer span.Finish()
-	// 5. 把生成的Root Span写入到Context上下文，获取一个子Context
-	// 通常在Web项目中，Root Span由中间件生成
-	//ctx := opentracing.ContextWithSpan(context.Background(), span)
-	//db.WithContext(context.Background())
+	// // 5. 把生成的Root Span写入到Context上下文，获取一个子Context
+	// // 通常在Web项目中，Root Span由中间件生成
+	// ctx := opentracing.ContextWithSpan(context.Background(), span)
+	// db.WithContext(ctx)
 
 	sqlDB, err := db.DB()
 	if err != nil {

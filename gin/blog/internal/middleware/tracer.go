@@ -34,7 +34,8 @@ func Tracing() func(c *gin.Context) {
 			)
 		}
 		//fmt.Printf("%+v", global.TracerSpan)
-		global.TracerSpan = span
+		//global.TracerSpan = span
+		//c.Set("TracerSpan", span)
 		defer span.Finish()
 		var traceID string
 		var spanID string

@@ -3,7 +3,6 @@ package tracer_gorm
 import (
 	"github.com/opentracing/opentracing-go"
 	tracerLog "github.com/opentracing/opentracing-go/log"
-	"github.com/practic-go/gin/blog/global"
 	"gorm.io/gorm"
 )
 
@@ -23,12 +22,12 @@ func (op *OpentracingPlugin) Name() string {
 
 func (op *OpentracingPlugin) Initialize(db *gorm.DB) (err error) {
 	// 开始前 - 并不是都用相同的方法，可以自己自定义
-	db.Callback().Create().Before("gorm:before_create").Register(callBackBeforeName, before)
-	db.Callback().Query().Before("gorm:query").Register(callBackBeforeName, before)
-	db.Callback().Delete().Before("gorm:before_delete").Register(callBackBeforeName, before)
-	db.Callback().Update().Before("gorm:setup_reflect_value").Register(callBackBeforeName, before)
-	db.Callback().Row().Before("gorm:row").Register(callBackBeforeName, before)
-	db.Callback().Raw().Before("gorm:raw").Register(callBackBeforeName, before)
+	db.Callback().Create().Before("gorm:before_create").Register(callBackBeforeName, op.before)
+	db.Callback().Query().Before("gorm:query").Register(callBackBeforeName, op.before)
+	db.Callback().Delete().Before("gorm:before_delete").Register(callBackBeforeName, op.before)
+	db.Callback().Update().Before("gorm:setup_reflect_value").Register(callBackBeforeName, op.before)
+	db.Callback().Row().Before("gorm:row").Register(callBackBeforeName, op.before)
+	db.Callback().Raw().Before("gorm:raw").Register(callBackBeforeName, op.before)
 
 	// 结束后 - 并不是都用相同的方法，可以自己自定义
 	db.Callback().Create().After("gorm:after_create").Register(callBackAfterName, after)
@@ -43,16 +42,16 @@ func (op *OpentracingPlugin) Initialize(db *gorm.DB) (err error) {
 // 告诉编译器这个结构体实现了gorm.Plugin接口
 var _ gorm.Plugin = &OpentracingPlugin{}
 
-func before(db *gorm.DB) {
+func (op *OpentracingPlugin) before(db *gorm.DB) {
 	// 先从父级spans生成子span ---> 这里命名为gorm，但实际上可以自定义
 	// 自己喜欢的operationName
-	//span, _ := opentracing.StartSpanFromContext(db.Statement.Context, "gorm")
+	span, _ := opentracing.StartSpanFromContext(db.Statement.Context, "gorm")
 	//span, _ := opentracing.ContextWithSpan(db.Statement.Context, "gorm")
-	d := db.Statement.Schema.Name
-	span := global.Tracer.StartSpan(
-		"gorm-"+d,
-		opentracing.ChildOf(global.TracerSpan.Context()),
-	)
+	// d := db.Statement.Schema.Name
+	// span := global.Tracer.StartSpan(
+	// 	"gorm-"+d,
+	// 	opentracing.ChildOf(global.TracerSpan.Context()),
+	// )
 
 	// 利用db实例去传递span
 	db.InstanceSet(gormSpanKey, span)

@@ -19,7 +19,6 @@ func RateLimiter(l limiter.LimiterIface) gin.HandlerFunc {
 				return
 			}
 		}
-
 		c.Next()
 	}
 }

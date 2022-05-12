@@ -33,7 +33,7 @@ func (t Tag) List(c *gin.Context) {
 	response := app.NewResponse(c)
 	// valid, errs := app.BindAndValid(c, &param)
 	// if !valid {
-	// 	/* 	 wrk -t2 -c10 -d10s -T10s --latency http://127.0.0.1:8999/api/v1/tags
+	// 	/* 	 wrk -t1 -c1 -d1s -T1s --latency http://127.0.0.1:8999/api/v1/tags
 	//	curl -X GET http://127.0.0.1:8999/api/v1/tags?state=6&name=Golang
 	// 	{"code":10000001,"details":["State 必须是[0 1]中的一个"],"msg":"入参错误"} */
 	// 	global.Logger.Errorf("app.BindAndValid errs: %v", errs)
