@@ -1,7 +1,5 @@
 package basic
 
-import "fmt"
-
 // 二分查找方法
 // 算法描述：在一组有序数组中，将数组一分为二，将要查询的元素和分割点进行比较，分为三种情况
 //   相等直接返回
@@ -49,12 +47,12 @@ func BinSearchExec() {
 		arr[i] = i + 1
 	}
 	BinSearch(arr, 1024)
-	id := BinSearch(arr, 1024)
-	if id != -1 {
-		fmt.Println(id, arr[id])
-	} else {
-		fmt.Println("没有找到数据")
-	}
+	// id := BinSearch(arr, 1024)
+	// if id != -1 {
+	// 	fmt.Println(id, arr[id])
+	// } else {
+	// 	fmt.Println("没有找到数据")
+	// }
 }
 
 func BinSearchExec2() {
