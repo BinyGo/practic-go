@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+package helloworld;
+
+//import "google/api/annotations.proto";
+
+ //option go_package = "practic-go/net/grpc/proto";
+ option go_package = "./;proto";
+
+
+service Greeter {
+    //Unary RPC：一元 RPC
+    //一元 RPC，也就是是单次 RPC 调用，简单来讲就是客户端发起一次普通的 RPC 请求，响应，是最基础的调用类型，也是最常用的方式
+    rpc SayHello (HelloRequest) returns (HelloReply) {} 
+
+    //Service-side streaming RPC：服务端流式 RPC
+    //服务器端流式 RPC，也就是是单向流，并代指 Server 为 Stream，Client 为普通的一元 RPC 请求。
+    //就是客户端发起一次普通的 RPC 请求，服务端通过流式响应多次发送数据集，客户端 Recv 接收数据集
+    rpc SayList (HelloRequest) returns (stream HelloReply) {};
+
+    //Client-side streaming RPC：客户端流式 RPC
+    //客户端流式 RPC，单向流，客户端通过流式发起多次 RPC 请求给服务端，服务端发起一次响应给客户端
+    rpc SayRecord(stream HelloRequest) returns (HelloReply) {};
+
+    //Bidirectional streaming RPC：双向流式 RPC
+    //双向流式 RPC，顾名思义是双向流，由客户端以流式的方式发起请求，服务端同样以流式的方式响应请求。
+    //首个请求一定是 Client 发起，但具体交互方式（谁先谁后、一次发多少、响应多少、什么时候关闭）根据程序编写的方式来确定（可以结合协程）。
+    rpc SayRoute(stream HelloRequest) returns (stream HelloReply) {};
+}
+
+message HelloRequest {
+    repeated World worlds = 1; //一个字段被声明为 repeated，那么该字段可以重复任意次（包括零次），重复值的顺序将保留在 protobuf 中，将重复字段视为动态大小的数组
+
+    // 如果你希望你的消息体可以包含多个字段，但前提条件是最多同时只允许设置一个字段，那么就可以使用 oneof 关键字来实现这个功能
+    oneof age {
+        string one_age = 2;
+        string two_age = 3;
+    }
+    SexType sex =4;
+    map<string, string> names = 5;
+}
+
+message World {
+    string name = 1;
+}
+
+//枚举类型，限定你所传入的字段值必须是预定义的值列表之一
+enum SexType {
+    Man = 0;
+    Woman = 1;
+}
+
+message HelloReply {
+    string message = 1;
+}
+
+//protoc --proto_path=. --go_out=./proto --go-grpc_out=./proto ./proto/*.proto
+//protoc --proto_path=. --go_out=paths=source_relative:. --go-http_out=paths=source_relative:. --go-grpc_out==paths=source_relative:. --openapi_out==paths=source_relative:. ./proto/*.proto
+/* 
+
+
+protoc --proto_path=. --go_out=paths=source_relative:.
+ --go-http_out=paths=source_relative:./api \
+ --go-grpc_out=paths=source_relative:./api \
+ --openapi_out==paths=source_relative:. \ 
+ */
