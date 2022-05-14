@@ -13,8 +13,8 @@ import "fmt"
 // 低位排序LSD
 // 高位排序MSD
 func RadixSortExec() {
-	var arr [4][]int
-	myarr := []int{1, 2, 3, 1, 1, 2, 2, 2, 2, 2, 3, 4, 4}
+	var arr [3][]int
+	myarr := []int{1, 2, 6, 6, 3, 1, 1, 2, 2, 2, 2, 2, 3}
 	for i := 0; i < len(myarr); i++ {
 		arr[myarr[i]-1] = append(arr[myarr[i]-1], myarr[i])
 	}
