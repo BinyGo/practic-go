@@ -14,7 +14,7 @@ import "fmt"
 // 高位排序MSD
 func RadixSortExec() {
 	var arr [3][]int
-	myarr := []int{1, 2, 6, 6, 3, 1, 1, 2, 2, 2, 2, 2, 3}
+	myarr := []int{1, 2, 3, 1, 1, 2, 2, 2, 2, 2, 3}
 	for i := 0; i < len(myarr); i++ {
 		arr[myarr[i]-1] = append(arr[myarr[i]-1], myarr[i])
 	}
