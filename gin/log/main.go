@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"os"
 	"path"
@@ -30,8 +31,9 @@ func main() {
 }
 
 func Router() *gin.Engine {
-
-	router := gin.New() //默认的没有中间件的空白 Gin
+	gin.SetMode(gin.ReleaseMode)       //设置模式
+	gin.DefaultWriter = ioutil.Discard //关闭控制台信息输出
+	router := gin.New()                //默认的没有中间件的空白 Gin
 	//router := gin.Default() // 默认已经连接了 Logger and Recovery 中间件
 	router.GET("/ping", LoggerToFile(), func(ctx *gin.Context) {
 		//Info级别的日志
