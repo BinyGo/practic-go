@@ -57,9 +57,9 @@ num CPU: 16
 ```
 
 ## 查看 trace 信息
-```
+```bash 
 $ gops trace 161662
-与 go tool trace 作用基本一致
+# 与 go tool trace 作用基本一致
 ```
 
 
